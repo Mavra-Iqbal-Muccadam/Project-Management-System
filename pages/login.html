@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website with Login and Registration Form | CodingNepal</title>
+    <!-- Google Fonts Link For Icons -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0">
+    <link rel="stylesheet" href="login.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+</head>
+
+<body>
+    <div class="logo">
+        <h1>AgileKnot MasterPlan</h1>
+    </div>
+    <div class="container">
+        <div class="form-container">
+            <form id="login-form" class="form" method="post">
+                <h2>Login</h2>
+                <input type="text" placeholder="enter your email" id="useremail" required name="useremail"
+                    autocomplete="current-email">
+                <input type="password" placeholder="Password" id="password" name="password"
+                    autocomplete="current-password">
+                <div id="error-message"></div>
+                <button type="submit" class="b">Login</button>
+                <p class="message">Dont have an account?
+                    <a id="signupbutton" href="/signup">Signup</a>
+                </p>
+            </form>
+        </div>
+        <div class="image1">
+            <h2><b>WELCOME BACK</b></h2>
+            <h5><small>Please login using your
+                    personal information to stay
+                    connected with us.</small></h5>
+        </div>
+    </div>
+
+
+
+
+</body>
+
+
+
+<script>
+    const form_login = document.querySelector('#login-form');
+
+    form_login.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form_login);
+        const data = Object.fromEntries(formData);
+
+        try {
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            // if (!response.ok) {
+            //     throw new Error('Network response was not ok.');
+            // }
+
+            const responseData = await response.json();
+
+            if (responseData.success === 0) {
+                document.getElementById('error-message').textContent = responseData.message;
+                console.log('Error occurred:', responseData.message);
+            } else {
+                // Redirect or perform other actions on successful login
+                window.location.href = 'http://localhost:4000/dashboard';
+            }
+        } catch (error) {
+            console.error('Error occurred:', error);
+            // Handle error here, e.g., display an error message to the user
+        }
+    });
+</script>
+
+</html>

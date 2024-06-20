@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Management Progress</title>
+    <link rel="stylesheet" href="stats.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Project Management Progress</h1>
+
+        <div class="progress-container">
+            <h2>User Progress</h2>
+            <div class="progress-bar" id="progress-bar"></div>
+            <p id="progress-text">75% Complete</p>
+        </div>
+
+        <div class="chart-container">
+            <h2>Project Progress Charts</h2>
+            <div class="charts">
+                <div class="chart">
+                    <canvas id="progressChart"></canvas>
+                </div>
+                <div class="chart">
+                    <canvas id="taskCompletionChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script >
+document.getElementById('progress-bar').style.width = '75%';
+
+const ctx = document.getElementById('progressChart').getContext('2d');
+const taskCtx = document.getElementById('taskCompletionChart').getContext('2d');
+
+const progressChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+        datasets: [{
+            label: 'Project Progress',
+            data: [10, 30, 50, 60, 80, 100],
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 2,
+            fill: false
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Months'
+                }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Progress (%)'
+                },
+                beginAtZero: true,
+                max: 100
+            }
+        }
+    }
+});
+
+const taskCompletionChart = new Chart(taskCtx, {
+    type: 'bar',
+    data: {
+        labels: ['Task 1', 'Task 2', 'Task 3', 'Task 4', 'Task 5'],
+        datasets: [{
+            label: 'Task Completion',
+            data: [90, 70, 50, 85, 95],
+            backgroundColor: 'rgba(153, 102, 255, 0.2)',
+            borderColor: 'rgba(153, 102, 255, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Tasks'
+                }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Completion (%)'
+                },
+                beginAtZero: true,
+                max: 100
+            }
+        }
+    }
+});
+
+    </script>
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Project Progress</h2>
+        <div id="progress-container">
+            <div id="progress-bar"></div>
+        </div>
+        <p id="progress-text"></p>
+    </div>
+<script>
+    function calculateProgress(startDate, endDate) {
+    const now = new Date();
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    if (now < start) return 0;
+    if (now > end) return 100;
+
+    const totalDuration = end - start;
+    const elapsed = now - start;
+
+    return (elapsed / totalDuration) * 100;
+}
+
+function updateProgressBar() {
+    const progressBar = document.getElementById('progress-bar');
+    const progressText = document.getElementById('progress-text');
+    const startDate = '2024-01-01';
+    const endDate = '2024-12-31';
+    const progress = calculateProgress(startDate, endDate);
+
+    progressBar.style.width = progress + '%';
+    progressBar.textContent = Math.floor(progress) + '%';
+    progressText.textContent = 'Project is ' + Math.floor(progress) + '% complete.';
+}
+
+window.onload = updateProgressBar;
+
+</script>
+</body>
+</html> -->

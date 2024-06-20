@@ -1,0 +1,146 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #333;
+    color: #ddd;
+}
+
+.navbar {
+    background-color: #444;
+    overflow: hidden;
+}
+
+.navbar a {
+    float: left;
+    display: block;
+    color: #ddd;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.container {
+    padding: 20px;
+}
+
+.project-name {
+    background: linear-gradient(to right,  #ff4c4c, #feb47b);
+    padding: 20px;
+    border-radius: 8px;
+    color: #fff;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.risk-details {
+    background: #555;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.risk-details h2 {
+    margin-top: 0;
+}
+
+.risk-details ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.risk-details ul li {
+    padding: 8px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.risk-details ul li span {
+    font-weight: bold;
+}
+
+.priority-bar {
+    background-color: #888;
+    border-radius: 4px;
+    height: 20px;
+    width: 100px;
+    margin-left: 20px;
+}
+
+.priority-bar span {
+    display: block;
+    height: 100%;
+    background-color: #ff4c4c;
+    border-radius: 4px;
+}
+
+.add-risk-btn {
+    background-color: #ff4c4c;
+    color: #ddd;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: block;
+    margin: 20px 0;
+}
+
+.add-risk-btn:hover {
+    background-color: #ff7878;
+}
+
+.add-risk-form {
+    display: none;
+    background: #555;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.add-risk-form h3 {
+    margin-top: 0;
+}
+
+.add-risk-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-risk-form label {
+    margin-bottom: 5px;
+}
+
+.add-risk-form input {
+    margin-bottom: 10px;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #777;
+    background: #444;
+    color: #ddd;
+}
+
+.add-risk-form button {
+    background-color: #ff4c4c;
+    color: #ddd;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.add-risk-form button[type="button"] {
+    background-color: #777;
+}
+
+.add-risk-form button:hover {
+    background-color: #ff7878;
+}

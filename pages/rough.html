@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Your Expert Team</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div>
+        <h2>Create Your Expert Team</h2>
+        <form method="post" id="team-form">
+            <div>
+                <label for="team-name">Team Name:</label>
+                <input type="text" id="team-name" name="team_name" required>
+            </div>
+            <div id="team-feedback"></div>
+            <div>
+                <label for="department">Department:</label>
+                <select id="department" name="department" required>
+                    <option value="">Select Department</option>
+                    <option value="development">Development</option>
+                    <option value="design">Design</option>
+                    <option value="deployment">Deployment</option>
+                    <option value="Research and Development">Research and Development</option>
+                    <option value="Quality Assurance">Quality Assurance</option>
+                </select>
+            </div>
+            <div id="members-container">
+                <label for="members">Members (Gmail IDs):</label>
+                <div id="member-inputs">
+                    <input type="text" class="member-email" name="member_email[]" placeholder="Enter Gmail ID">
+                </div>
+                <button type="button" id="add-member">Add Member</button>
+                <div id="member-feedback"></div>
+            </div>
+            <div>
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            // Function to check email availability
+            var typingTimer;
+    var doneTypingInterval = 1000; // 500 milliseconds delay, adjust as needed
+
+
+
+    function checkTeamNameAvailability(teamName) {
+        $.ajax({
+            type: 'POST',
+            url: '/team/check-team-name',
+            data: JSON.stringify({ teamName: teamName }),
+            contentType: 'application/json',
+            success: function (response) {
+                if (response !== '') {
+                    $('#team-feedback').html(response);
+                } else {
+                    $('#team-feedback').html('');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error checking team name:', error);
+            }
+        });
+    }
+
+    // Listen for input changes in the team name field
+    $('#team-name').on('input', function () {
+    console.log('Input changed');
+    clearTimeout(typingTimer);
+    const teamName = $(this).val();
+
+    typingTimer = setTimeout(function () {
+        console.log('Calling checkTeamNameAvailability with teamName:', teamName);
+        checkTeamNameAvailability(teamName);
+    }, doneTypingInterval);
+});
+
+    // Function to check email availability
+    function checkEmailAvailability(email, department) {
+        $.ajax({
+            type: 'POST',
+            url: '/team/check-email',
+            data: JSON.stringify({ email: email, department: department }), // Send department along with email
+            contentType: 'application/json',
+            success: function (response) {
+                if (response !== '') {
+                    // Display message only if response is not empty
+                    $('#member-feedback').html(response);
+                } else {
+                    // No message to display if response is empty
+                    $('#member-feedback').html('');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error checking email:', error);
+            }
+        });
+    }
+
+    // Listen for input changes in the email field (including dynamically added fields)
+    $(document).on('input', '.member-email', function () {
+        clearTimeout(typingTimer);
+        const email = $(this).val();
+        const department = $('#department').val(); // Assuming the department field has id 'department'
+
+        typingTimer = setTimeout(function () {
+            checkEmailAvailability(email, department);
+        }, doneTypingInterval);
+    });
+
+        
+            // Add member button click event
+            $('#add-member').click(function () {
+                var inputCount = $('.member-email').length;
+                if (inputCount < 5) {
+                    var newInput = $('<input type="text" class="member-email" name="member_email[]" placeholder="Enter Gmail ID">');
+                    $('#member-inputs').append(newInput);
+                } else {
+                    $('#member-feedback').html('Only 5 members are allowed.');
+                }
+            });
+        });
+
+
+        $('#team-form').submit(function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        var formData = $(this).serialize(); // Serialize form data
+        $.ajax({
+            type: 'POST',
+            url: '/team/submit', // Update with your backend endpoint URL
+            data: formData,
+            success: function (response) {
+                // Handle success response
+                console.log(response);
+            
+            // Redirect to the login page
+            window.location.href = 'http://localhost:4000/dashboard';
+            },
+            error: function (xhr, status, error) {
+                // Handle error
+                console.error('Error submitting form:', error);
+            }
+        });
+    });
+
+
+
+    
+        </script>
+        
+</body>
+</html>

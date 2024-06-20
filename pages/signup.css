@@ -1,0 +1,231 @@
+/* body {
+    font-family:'Times New Roman', Times, serif;
+    margin: 20px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    background-image: url("black background.png");
+    background-size: cover;
+    color: white;
+} */
+body {
+    height: 100%;
+    width: 100%;
+    /* background-image: url("../pictures/black background.png"); */
+    /* background-size:cover; */
+    background-color: #1D2D44;
+    font-family:'Times New Roman', Times, serif;
+    margin: 20px;
+    padding: 0;
+    overflow-x: hidden;
+} 
+
+
+.container {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    height: auto; /* Changed to auto to fit the content */
+    width: 30%;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 5px; 
+    /* border-radius: 10px; Added border radius for rounded corners */
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto; /* Centers the container horizontally */
+
+}
+
+.logo h1 {
+    margin-top: 30px;
+    color: white;
+    font-size: 24px;
+  }
+
+
+  .textcontainer {
+    padding: 20px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%; /* Optional: Adjust the width as needed */
+}
+
+
+/* h1, h2, h5 {
+    color: #1f1e1e;
+} */
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    
+}
+
+/* Form Styles */
+form {
+    display: flex;
+    flex-direction: column;
+    /* width: 100%; */
+}
+label {
+    font-size: 16px;
+    margin-bottom: 0.5rem;
+    color: #555555;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+    padding: 0.5rem;
+    font-size: 15px;
+    margin-bottom: 1rem;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    color: #555555;
+}
+
+#button1 {
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    color: black;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#button1:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+select {
+    padding: 0.5rem;
+    font-size: 13px;
+    margin-bottom: 1rem;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    width: 100%;
+    color: #555555;
+    box-sizing: border-box;
+    /* appearance: none;  */
+    background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDE0IDE0Ij48cGF0aCBmaWxsPSIjMDA3YjFmIiBkPSJNNC4yOTUgMy4yOTVsMi41IDMuNXZtMCAwYTIuNXpNNy43MDUgMTEuNzA1bDIuNS0zLjV2MG0gMCAwYTIuNXoiLz48L3N2Zz4=') no-repeat right 0.75rem center; /* Adds custom dropdown arrow */
+    background-size: 12px 12px;
+}
+
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+/* Error and Info Message Styles */
+#username-choosen,
+#email-exist,
+#password-strength,
+#password-error {
+    font-size: 13px;
+    color: #ff0000;
+    margin-bottom: 1rem;
+    display: none;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 480px) {
+    .container {
+        width: 80%;
+        flex-direction: column;
+    }
+
+    .textcontainer, .form-container, .image1 {
+        padding: 1rem;
+        width: 100%;
+    }
+
+    h1 {
+        font-size: 1.25rem;
+    }
+
+    input[type="submit"],
+    button[type="submit"] {
+        font-size: 0.9rem;
+    }
+}
+#password-error {
+    color: red;
+    font-weight: bold;
+    font-size: 18px; /* Adjust the size as needed */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Style for the username-choosen element */
+/* Initial hidden state for the elements */
+#username-choosen,
+#email-exist {
+    display: none;
+    color: red; /* Text color */
+    font-size: 14px; /* Font size */
+    font-weight: bold; /* Font weight */
+    margin-top: 5px; /* Space above the element */
+    background-color: #f8d7da; /* Background color */
+    padding: 10px; /* Padding inside the element */
+    border: 1px solid #f5c6cb; /* Border color and style */
+    border-radius: 4px; /* Rounded corners */
+}
+
+/* Show elements when they are not empty */
+#username-choosen:not(:empty),
+#email-exist:not(:empty) {
+    display: block;
+}
+
+
+
+
+
+/* Hide the elements initially */
+#password-strength,
+#password-error {
+    display: none;
+    color: red; /* Text color */
+    font-size: 12px; /* Font size */
+    margin-top: 5px; /* Space above the element */
+}
+
+/* Make the elements visible when they contain text */
+#password-strength:empty,
+#password-error:empty {
+    display: none;
+}
+
+#password-strength:not(:empty),
+#password-error:not(:empty) {
+    display: block;
+}

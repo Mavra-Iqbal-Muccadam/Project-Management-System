@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Workspace</title>
+    <link rel="stylesheet" href="workspace.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+
+<body>
+    <!-- <header> -->
+    <div class="logo">
+        <h1>AgileKnot MasterPlan</h1>
+    </div>
+    <main>
+        <div id="projectdetails">
+            <h2>Project Name</h2>
+            <input id="pname" placeholder="Enter Project Name"></input>
+            <div id="name-exist">Project name already exists. Please choose a different name.</div>
+
+            <h2>Project Description</h2>
+            <textarea id="pdescription" placeholder="Enter Your Project Description"></textarea>
+            <button id="clearNotesBtn">Clear Description</button>
+            <h2>Project Category</h2>
+
+
+
+
+            <!-- yeh mene options daaley hai -->
+            <select id="pcategory">
+                <option value="">Select Project Category</option>
+                <option value="web_app">Web Application</option>
+                <option value="mobile_app">Mobile Application</option>
+                <option value="mobile_app">Desktop Application</option>
+            </select>
+
+
+
+
+            <h2>Project Lead</h2>
+            <input id="plead" placeholder="Enter Project Lead Name"></input>
+
+
+
+
+            <!-- yeh lead email mene add kiya hai -->
+            <h2>Lead email</h2>
+            <input id="lead-email" placeholder="Enter Project Lead email" onclick=""></input>
+            
+            <div id="email-exist" style="display: none;">Email Not Found</div>
+            
+            <!-- yahan field add ki hai -->
+            <h2>Project Cost</h2>
+            <input id="pcost" placeholder="Enter Project Cost in $"></input>
+            <!-- <div id="error-cost" style="color: red; display: none;">Please enter a number (0-9).</div>
+              -->
+              <div id="error-cost" >Please enter a number (0-9).</div>
+
+
+            <h2>Estimated Budget</h2>
+            <input id="pbudget" placeholder="Enter Estimated Budget for your Project"></input>
+            <div id="error-budget" >Please enter a number (0-9).</div>
+             
+              
+
+
+
+            <h2>Team</h2>
+            <input id="team" placeholder="Enter team name"><br>
+            <button type="button" id="add_team" onclick="addMemberInput()">Add Team</button>
+            <div id="memberInputs"></div>
+
+
+
+            <div id="suggestions-dropdown" class="dropdown-content"></div>
+
+            <!-- <input type="text" placeholder="Enter Member "> -->
+
+
+            <h2>Start Date</h2>
+            <input id="pstartdate" type="date"></input>
+            <h2>Estimated End Date</h2>
+            <input id="penddate" type="date"></input>
+
+            <button id='create-project-button' type="submit">Create</button>
+        </div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const pcostInput = document.getElementById('pcost');
+            const costerrorMessage = document.getElementById('error-cost');
+
+            pcostInput.addEventListener('input', () => {
+                const value = pcostInput.value;
+                if (isNaN(value) || /\D/.test(value)) {
+                    costerrorMessage.style.display = 'block';
+                } else {
+                    costerrorMessage.style.display = 'none';
+                }
+            });
+
+            const createProjectButton = document.getElementById('create-project-button');
+            createProjectButton.addEventListener('click', () => {
+                const errorMessageDisplay = window.getComputedStyle(errorMessage).getPropertyValue(
+                    'display');
+                if (errorMessageDisplay === 'block') {
+                    alert('Please enter a valid budget.');
+                    return false; // Prevent form submission
+                }
+            });
+        });
+
+
+        $(document).ready(function () {
+    $('#pname').on('input', function () {
+      const projectName = $(this).val();
+
+      // Send AJAX request to check project name availability
+      $.ajax({
+        type: 'POST',
+        url: '/workspace/check-project-name',
+        data: JSON.stringify({ projectName: projectName }),
+        contentType: 'application/json',
+        success: function (response) {
+          if (response.exists) {
+            $('#name-exist').css('display', 'block');
+          } else {
+            $('#name-exist').css('display', 'none');
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error('Error checking project name:', error);
+        }
+      });
+    });
+  });
+
+
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const pbudgetInput = document.getElementById('pbudget');
+            const errorMessage = document.getElementById('error-budget');
+
+            pbudgetInput.addEventListener('input', () => {
+                const value = pbudgetInput.value;
+                if (isNaN(value) || /\D/.test(value)) {
+                    errorMessage.style.display = 'block';
+                } else {
+                    errorMessage.style.display = 'none';
+                }
+            });
+
+            const createProjectButton = document.getElementById('create-project-button');
+            createProjectButton.addEventListener('click', () => {
+                const errorMessageDisplay = window.getComputedStyle(errorMessage).getPropertyValue(
+                    'display');
+                if (errorMessageDisplay === 'block') {
+                    alert('Please enter a valid budget.');
+                    return false; // Prevent form submission
+                }
+            });
+        });
+
+
+
+
+
+        // Select the "Add Member" button
+        var addMemberBtn = document.getElementById("addMemberBtn");
+        // Select the container where input boxes will be added
+        var memberInputs = document.getElementById("memberInputs");
+
+        var addresourceBtn = document.getElementById("addresourceBtn");
+
+        var clearNotesBtn = document.getElementById("clearNotesBtn");
+        var pdescription = document.getElementById("pdescription");
+        clearNotesBtn.addEventListener("click", function () {
+            pdescription.value = "";
+        });
+
+
+
+
+
+
+
+
+        let teamCount = 0;
+        const maxTeams = 5;
+
+        function addMemberInput() {
+            if (teamCount < maxTeams) {
+                const teamInput = document.getElementById("team").value.trim();
+                if (teamInput.length > 0) {
+                    const teamList = document.getElementById('memberInputs');
+                    const teamItem = document.createElement('label');
+                    teamItem.textContent = teamInput;
+                    teamItem.classList.add('team_name');
+                    teamList.appendChild(teamItem);
+                    teamCount++;
+                    document.getElementById("team").value = '';
+                    if (teamCount >= maxTeams) {
+                        document.getElementById("addMemberBtn").disabled = true;
+                    }
+                }
+            }
+        }
+
+
+
+        
+
+
+        $(document).ready(function () {
+    $('#lead-email').on('input', function () {
+        const email = $(this).val();
+
+        if (email === '') {
+            $('#email-exist').css('display', 'none');
+            return; // Exit the function early if email is empty
+        }
+
+        // Send AJAX request to check email existence
+        $.ajax({
+            type: 'POST',
+            url: '/workspace/check_email',
+            data: { email: email }, // No need to stringify JSON
+            success: function (response) {
+                if (response.exists) { // Check the 'exists' property of the response
+                    $('#email-exist').text('Email Found').css('display', 'none');
+                } else {
+                    $('#email-exist').text('Email Not Found').css('display', 'block');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error checking email existence:', error);
+            }
+        });
+    });
+});
+        document.addEventListener('DOMContentLoaded', () => {
+            const suggestionInput = document.getElementById('team');
+            const addMemberBtn = document.getElementById("add_team");
+
+            suggestionInput.addEventListener('input', () => {
+                showSuggestions(addMemberBtn); // Call showSuggestions() when input changes
+            });
+
+            addMemberBtn.disabled = true; // Initially disable the button
+        });
+
+
+
+        // async function showSuggestions(addMemberBtn) {
+        //     const query = document.getElementById("team").value;
+
+        //     if (query.length > 0) {
+        //         try {
+        //             const response = await fetch(`/workspace/suggestions?query=${query}`);
+        //             const data = await response.json();
+
+        //             const dropdown = document.getElementById("suggestions-dropdown");
+        //             dropdown.innerHTML = '';
+
+        //             if (data.length > 0) {
+        //                 data.forEach(team => {
+        //                     const option = document.createElement("div");
+        //                     option.textContent = team;
+        //                     option.onclick = () => {
+        //                         document.getElementById("team").value = team;
+        //                         dropdown.innerHTML = '';
+        //                     };
+        //                     dropdown.appendChild(option);
+        //                 });
+
+        //                 // Enable the Add Team button if the team is found
+        //                 addMemberBtn.disabled = false;
+        //             } else {
+        //                 dropdown.innerHTML = '<div>Team not found</div>';
+        //                 // Disable the Add Team button if the team is not found
+        //                 addMemberBtn.disabled = true;
+        //             }
+        //         } catch (error) {
+        //             console.error('Error fetching suggestions:', error);
+        //         }
+        //     } else {
+        //         document.getElementById("suggestions-dropdown").innerHTML = '';
+        //         // Disable the Add Team button if no query is entered
+        //         addMemberBtn.disabled = true;
+        //     }
+        // }
+        async function showSuggestions(addMemberBtn) {
+            const query = document.getElementById("team").value;
+
+            if (query.length > 0) {
+                try {
+                    const response = await fetch(`/workspace/suggestions?query=${query}`);
+                    const data = await response.json();
+
+                    const dropdown = document.getElementById("suggestions-dropdown");
+                    dropdown.innerHTML = '';
+
+                    if (data.length > 0) {
+                        data.forEach(team => {
+                            const option = document.createElement("div");
+                            option.textContent = team;
+                            option.onclick = () => {
+                                document.getElementById("team").value = team;
+                                dropdown.innerHTML = '';
+                                dropdown.style.display = 'none';
+                            };
+                            dropdown.appendChild(option);
+                        });
+
+                        // Enable the Add Team button if the team is found
+                        addMemberBtn.disabled = false;
+                        dropdown.style.display = 'block';
+                        positionDropdown();
+                    } else {
+                        dropdown.innerHTML = '<div>Team not found</div>';
+                        // Disable the Add Team button if the team is not found
+                        addMemberBtn.disabled = true;
+                        dropdown.style.display = 'block';
+
+                    }
+                } catch (error) {
+                    console.error('Error fetching suggestions:', error);
+                }
+            } else {
+                const dropdown = document.getElementById("suggestions-dropdown");
+                dropdown.innerHTML = '';
+                dropdown.style.display = 'none';
+                // Disable the Add Team button if no query is entered
+                addMemberBtn.disabled = true;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        document.getElementById('create-project-button').addEventListener('click', async () => {
+            const query = emailInput.value;
+
+            if (query.length > 0) {
+                try {
+                    const response = await fetch(`/workspace/email-suggestions?query=${query}`);
+                    const data = await response.json();
+
+                    if (data.length === 0) {
+                        alert('Email not found. Please enter a valid email.');
+                        return; // Do not proceed with submission
+                    }
+                } catch (error) {
+                    console.error('Error fetching email suggestions:', error);
+                }
+            }
+
+            submitForm();
+        });
+
+
+
+
+
+        // const emailInput = document.getElementById('lead-email');
+        // emailInput.addEventListener('input', () => {
+        //     showEmailSuggestions();
+        // });
+
+        // async function showEmailSuggestions() {
+        //     const query = emailInput.value;
+
+        //     if (query.length > 0) {
+        //         try {
+        //             const response = await fetch(`/workspace/email-suggestions?query=${query}`);
+        //             const data = await response.json();
+
+        //             const emailExist = document.getElementById("email-exist");
+        //             emailExist.innerHTML = '';
+
+        //             if (data.length > 0) {
+        //                 emailExist.style.display = 'none';
+        //                 data.forEach(email => {
+        //                     const suggestion = document.createElement("div");
+        //                     suggestion.textContent = email;
+        //                     suggestion.onclick = () => {
+        //                         emailInput.value = email;
+        //                         emailExist.innerHTML = '';
+        //                         emailExist.style.display = 'none';
+        //                     };
+        //                     emailExist.appendChild(suggestion);
+        //                 });
+        //             } else {
+        //                 emailExist.innerHTML = '<div>Email not found</div>';
+        //                 emailExist.style.display = 'block';
+        //             }
+        //         } catch (error) {
+        //             console.error('Error fetching email suggestions:', error);
+        //             const emailExist = document.getElementById("email-exist");
+        //             emailExist.innerHTML = '<div>Error fetching email suggestions</div>';
+        //             emailExist.style.display = 'block';
+        //         }
+        //     } else {
+        //         document.getElementById("email-exist").innerHTML = '';
+        //         document.getElementById("email-exist").style.display = 'none';
+        //     }
+        // }
+
+
+        
+
+
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // document.getElementById('create-project-button').addEventListener('click', submitForm);
+        async function submitForm() {
+            const teamInputs = document.querySelectorAll('.team-input'); // Change id to class
+            const teamNames = Array.from(teamInputs).map(input => input.value.trim());
+
+            const projectData = {
+                projectName: document.getElementById("pname").value,
+                projectDescription: document.getElementById("pdescription").value,
+                projectCategory: document.getElementById("pcategory").value,
+                projectLead: document.getElementById("plead").value,
+                leadEmail: document.getElementById("lead-email").value,
+                projectCost: document.getElementById("pcost").value,
+                estimatedBudget: document.getElementById("pbudget").value,
+                team: Array.from(document.getElementsByClassName("team_name")).map(label => label.textContent),
+
+                startDate: document.getElementById("pstartdate").value,
+                endDate: document.getElementById("penddate").value
+            };
+
+            try {
+                const response = await fetch('/workspace/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(projectData)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to create project');
+                }
+
+                const data = await response.json();
+                console.log('Project created successfully:', data);
+                window.location.href = 'http://localhost:4000/dashboard';
+                // Redirect to another page or show a success message as needed
+            } catch (error) {
+                console.error('Error creating project:', error);
+                // Show an error message to the user
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Risks</title>
+    <link rel="stylesheet" href="risk.css">
+</head>
+<body>
+    <div class="navbar">
+        <a href="dashboard.html">Home</a>
+        <a href="budget.html">Budget</a>
+        <a href="risk.html">Risk</a>
+        <a href="stats.html">Analytics</a>
+    </div>
+
+    <div class="container">
+        <div class="project-name" id="project-name">
+            <!-- Project name will be inserted here by JavaScript -->
+        </div>
+        <div class="risk-details" id="risk-details">
+            <!-- Risk details will be inserted here by JavaScript -->
+        </div>
+        <button class="add-risk-btn" onclick="toggleAddRiskForm()">+ Add Risk</button>
+        <div class="add-risk-form" id="add-risk-form">
+            <h3>Add New Risk</h3>
+            <form id="riskForm">
+                <label for="riskName">Risk Name:</label>
+                <input type="text" id="riskName" name="riskName" required>
+                
+                <label for="priority">Priority:</label>
+                <input type="number" id="priority" name="priority" min="1" max="10" required>
+                
+                <button type="submit">Add Risk</button>
+                <button type="button" onclick="toggleAddRiskForm()">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+     document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectName = urlParams.get('projectName');
+    console.log(projectName);
+    
+    if (!projectName) {
+        console.error('No project name found in URL parameters');
+        return;
+    }
+
+    const projectNameContainer = document.getElementById('project-name');
+    const riskDetailsContainer = document.getElementById('risk-details');
+
+    projectNameContainer.innerHTML = `Project Name: ${projectName}`;
+    
+    function renderRisks(risks) {
+        if (!risks || !Array.isArray(risks) || risks.length === 0) {
+            riskDetailsContainer.innerHTML = `
+            <h2>No risk found for this project</h2>
+        `;
+        console.error('Invalid or empty risks data received');
+            return;
+    }
+
+        const risksHTML = risks.map(risk => `
+            <li>
+                <span>Risk: ${risk.description}</span>
+                <div class="priority-bar"><span style="width: ${risk.priority * 10}%"></span></div>
+            </li>
+        `).join('');
+
+        riskDetailsContainer.innerHTML = `
+            <h2>Risks for Project: ${projectName}</h2>
+            <ul>${risksHTML}</ul>
+        `;
+    }
+
+    function fetchRisks() {
+        fetch(`/projectrisk/risk?projectName=${projectName}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                renderRisks(data); // Call renderRisks with the fetched data
+            })
+            .catch(error => {
+                console.error('Error fetching risks:', error);
+            });
+    }
+
+    // Initial fetch of risks when the page loads
+    fetchRisks();
+
+    document.getElementById('riskForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const riskName = document.getElementById('riskName').value;
+        const priority = document.getElementById('priority').value;
+        const data = { riskName, priority, projectName };
+
+        fetch('/projectrisk/newrisk', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+            console.log('Success:', result);
+            fetchRisks(); // Fetch the updated list of risks after adding a new one
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+        toggleAddRiskForm(); // Ensure this function is defined elsewhere to handle form visibility
+    });
+});
+
+function toggleAddRiskForm() {
+    const form = document.getElementById('add-risk-form');
+    form.style.display = form.style.display === 'block' ? 'none' : 'block';
+}
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+body {
+    height: 100%;
+    width: 100%;
+    /* background-color: black; */
+    background-image: url("../pictures/black background.png");
+    background-size:cover;
+    font-family:'Times New Roman', Times, serif;
+
+
+  }
+  .navbar{
+  margin-top: none;
+  height: 50px;
+  width: 100%;
+  display: flex;
+  justify-content:space-evenly;
+  align-items: center;
+  }
+  .a{
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-family: Arial;
+  padding: 20px;
+
+  
+  
+  }
+  .a:hover{
+  color: #0056b3;
+  }
+  .b:hover{
+  background-color: #007bff;
+  }
+
+  .container {
+  display: flex;
+  /* justify-content: center;
+  align-items: center; */
+  height: 50vh;
+  width: 100%;
+  justify-content: center;
+  align-items: centre;
+  margin-top: 95px;
+  }
+  
+  .form-container {
+  background-color: #fff;
+  padding: 20px;
+  /* border-radius: 8px; */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  height: 50vh;
+  width:20% ;
+  /* background-color:#2d2e30; */
+  color: black;
+  margin-bottom: 5px;
+  }
+  
+  .form {
+  display: flex;
+  flex-direction: column;
+  justify-content: centre;
+  align-items: centre;
+  }
+  
+  .form h2 {
+  margin-bottom: 20px;
+  text-align: center;
+  }
+  
+  .form input {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  }
+  
+  .form button {
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  }
+  
+  .form button:hover {
+  background-color: #0056b3;
+  }
+  
+  .message {
+  text-align: center;
+  }
+  
+  .message a {
+  color: #007bff;
+  text-decoration: none;
+  }
+  
+  .message a:hover {
+  text-decoration: underline;
+  }
+  
+  #error-message{
+    color: red;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    /* visibility: visible; */
+  }
+  .image1{
+  background-image: url("../pictures/login-img.jpg");
+  background-size: cover;
+  width:27% ;
+  height: 57vh;
+  color: white;
+  text-align:center ;
+  font-size:  1.25rem;
+  }
+  .image1 h5{
+    margin: 20px;
+    }
+  
+  div{
+  margin: none;
+  }
+
+  .logo h1 {
+    margin-left: 20px;
+    color: white;
+    font-size: 24px;
+  }

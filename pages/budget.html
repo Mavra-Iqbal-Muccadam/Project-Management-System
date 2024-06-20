@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Budget</title>
+    <link rel="stylesheet" href="budget.css">
+</head>
+<body>
+    <div class="navbar">
+        <a href="dashboard.html">Home</a>
+        <a href="budget.html">Budget</a>
+        <a href="risk.html">Risk</a>
+        <a href="stats.html">Analytics</a>
+    </div>
+
+    <div class="container">
+        <div class="budget-details" id="budget-details">
+            <!-- Budget details will be inserted here by JavaScript -->
+        </div>
+    </div>
+   
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    const budgetDetails = {
+        projectName: "APP DEVELOPMENT",
+        oldBudgets: [
+            { item: "Initial Budget", amount: "$10,000", date: "January 1, 2024" },
+            { item: "Additional Budget for Design", amount: "$2,000", date: "February 15, 2024" }
+        ],
+        newBudgets: [
+            { item: "Increased Budget due to Risk", amount: "$1,500", date: "March 20, 2024" },
+            { item: "New Marketing Budget", amount: "$3,000", date: "April 10, 2024" }
+        ],
+        profits: [
+            { item: "Initial Profit", amount: "$5,000", date: "May 5, 2024" },
+            { item: "Additional Profit", amount: "$2,000", date: "June 1, 2024" }
+        ]
+    };
+
+    const budgetDetailsContainer = document.getElementById('budget-details');
+
+    const oldBudgetsHTML = budgetDetails.oldBudgets.map(budget => `
+        <tr>
+            <td>${budget.item}</td>
+            <td>${budget.amount}</td>
+            <td>${budget.date}</td>
+        </tr>
+    `).join('');
+
+    const newBudgetsHTML = budgetDetails.newBudgets.map(budget => `
+        <tr>
+            <td>${budget.item}</td>
+            <td>${budget.amount}</td>
+            <td>${budget.date}</td>
+        </tr>
+    `).join('');
+
+    const profitsHTML = budgetDetails.profits.map(profit => `
+        <tr>
+            <td>${profit.item}</td>
+            <td>${profit.amount}</td>
+            <td>${profit.date}</td>
+        </tr>
+    `).join('');
+
+    const budgetHTML = `
+        <h2>Project: ${budgetDetails.projectName}</h2>
+
+        <h3>Old Budgets</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${oldBudgetsHTML}
+            </tbody>
+        </table>
+
+        <h3>New Budgets</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${newBudgetsHTML}
+            </tbody>
+        </table>
+
+        <h3>Profits</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${profitsHTML}
+            </tbody>
+        </table>
+    `;
+
+    budgetDetailsContainer.innerHTML = budgetHTML;
+})
+
+    </script>
+</body>
+</html>

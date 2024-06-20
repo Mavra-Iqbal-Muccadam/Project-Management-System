@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Tasks in Project</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .chart-container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .bar {
+            width: 100%;
+            background-color: #f2f2f2;
+            margin: 10px 0;
+        }
+
+        .progress {
+            width: 0;
+            height: 30px;
+            background-color: #4caf50;
+            text-align: right;
+            line-height: 30px;
+            color: black;
+        }
+
+        .add-task-form {
+            margin: 20px 0;
+        }
+
+        .add-task-form input,
+        .add-task-form select,
+        .add-task-form button {
+            padding: 10px;
+            margin: 5px;
+        }
+
+        .add-task-form input {
+            width: calc(25% - 22px);
+        }
+
+        .add-task-form select {
+            width: calc(25% - 22px);
+        }
+
+        .add-task-form button {
+            padding: 10px 20px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .add-task-form button:hover {
+            background-color: #1976D2;
+        }
+
+        .red-text {
+            color: red;
+        }
+
+        .green-text {
+            color: green;
+        }
+
+        .mark-done-button {
+            padding: 5px 10px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .mark-done-button:hover {
+            background-color: #388e3c;
+        }
+
+        .mark-done-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .summary {
+            margin: 20px 0;
+        }
+
+        .summary div {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Tasks Assigned to Users in Project</h2>
+
+    <div class="summary">
+        <div>Total Tasks: <span id="total-tasks">0</span></div>
+        <div>Completed: <span id="completed-tasks">0</span></div>
+        <div>In Progress: <span id="in-progress-tasks">0</span></div>
+        <div>Missing: <span id="missing-tasks">0</span></div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Task Name</th>
+                <th>Team</th>
+                <th>Due Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="task-table">
+            <!-- Tasks will be injected here -->
+        </tbody>
+    </table>
+
+    <h2>Add New Task</h2>
+    <div class="add-task-form">
+        <input type="text" id="new-task-name" placeholder="Task Name">
+        <select id="new-task-team">
+            <option value="Team 1">Team 1</option>
+            <option value="Team 2">Team 2</option>
+        </select>
+        <input type="date" id="new-task-due-date">
+        <button id="add-task-button">Add Task</button>
+    </div>
+    <script>
+        // const tasks = [
+        //     { id: 1, name: 'Design the UI', user: 'User 1', dueDate: '2024-08-12', dateAssigned: '2024-06-12', completion: 0 },
+        //     { id: 2, name: 'Develop API', user: 'User 2', dueDate: '2024-06-25', dateAssigned: '2024-06-02', completion: 0 },
+        //     { id: 3, name: 'Test Application', user: 'User 3', dueDate: '2024-06-30', dateAssigned: '2024-06-03', completion: 0 },
+        // ];
+
+        // const taskTable = document.getElementById('task-table');
+        // const chartContainer = document.getElementById('chart-container');
+        // const currentDate = new Date();
+
+        // tasks.forEach(task => {
+        //     const row = document.createElement('tr');
+
+        //     const idCell = document.createElement('td');
+        //     idCell.textContent = task.id;
+        //     row.appendChild(idCell);
+
+        //     const nameCell = document.createElement('td');
+        //     nameCell.textContent = task.name;
+        //     row.appendChild(nameCell);
+
+        //     const userCell = document.createElement('td');
+        //     userCell.textContent = task.user;
+        //     row.appendChild(userCell);
+
+        //     const dueDateCell = document.createElement('td');
+        //     dueDateCell.textContent = task.dueDate;
+        //     row.appendChild(dueDateCell);
+
+        //     const dateAssigned = new Date(task.dateAssigned);
+        //     const dueDate = new Date(task.dueDate);
+        //     const totalDays = (dueDate - dateAssigned) / (1000 * 60 * 60 * 24);
+        //     const elapsedDays = (currentDate - dateAssigned) / (1000 * 60 * 60 * 24);
+        //     const completion = Math.min((elapsedDays / totalDays) * 100, 100);
+        //     task.completion = completion.toFixed(2);
+
+        //     const completionCell = document.createElement('td');
+        //     completionCell.textContent = task.completion + '%';
+        //     row.appendChild(completionCell);
+
+        //     taskTable.appendChild(row);
+
+        //     const barContainer = document.createElement('div');
+        //     barContainer.className = 'bar';
+
+        //     const progress = document.createElement('div');
+        //     progress.className = 'progress';
+        //     progress.style.width = task.completion + '%';
+        //     progress.textContent = task.completion + '%';
+
+        //     barContainer.appendChild(progress);
+        //     chartContainer.appendChild(barContainer);
+        // });
+        const tasks = [{
+                name: 'Design the UI',
+                team: 'Team 1',
+                dueDate: '2024-06-29',
+                dateAssigned: '2024-06-12',
+                isDone: false
+            },
+            {
+                name: 'Develop API',
+                team: 'Team 2',
+                dueDate: '2024-06-13',
+                dateAssigned: '2024-06-02',
+                isDone: false
+            },
+            {
+                name: 'Test Application',
+                team: 'Team 1',
+                dueDate: '2024-06-30',
+                dateAssigned: '2024-06-03',
+                isDone: false
+            },
+            {
+                name: 'Write Documentation',
+                team: 'Team 2',
+                dueDate: '2024-06-15',
+                dateAssigned: '2024-06-05',
+                isDone: false
+            },
+        ];
+
+        const taskTable = document.getElementById('task-table');
+        const currentDate = new Date();
+
+        function getStatus(task) {
+            const dueDate = new Date(task.dueDate);
+            if (task.isDone) {
+                return 'Completed';
+            } else if (currentDate > dueDate) {
+                return 'Missing';
+            } else {
+                return 'In Progress';
+            }
+        }
+
+        function renderTasks() {
+            taskTable.innerHTML = '';
+
+            let totalTasks = 0;
+            let completedTasks = 0;
+            let inProgressTasks = 0;
+            let missingTasks = 0;
+
+            tasks.forEach((task, index) => {
+                totalTasks++;
+
+                const row = document.createElement('tr');
+
+                const nameCell = document.createElement('td');
+                nameCell.textContent = task.name;
+                row.appendChild(nameCell);
+
+                const teamCell = document.createElement('td');
+                teamCell.textContent = task.team;
+                row.appendChild(teamCell);
+
+                const dueDateCell = document.createElement('td');
+                dueDateCell.textContent = task.dueDate;
+                row.appendChild(dueDateCell);
+
+                const statusCell = document.createElement('td');
+                const status = getStatus(task);
+                statusCell.textContent = status;
+                if (status === 'Completed') {
+                    statusCell.classList.add('green-text');
+                    completedTasks++;
+                } else if (status === 'In Progress') {
+                    inProgressTasks++;
+                } else if (status === 'Missing') {
+                    missingTasks++;
+                    statusCell.classList.add('red-text');
+                }
+                row.appendChild(statusCell);
+
+                taskTable.appendChild(row);
+            });
+
+            document.getElementById('total-tasks').textContent = totalTasks;
+            document.getElementById('completed-tasks').textContent = completedTasks;
+            document.getElementById('in-progress-tasks').textContent = inProgressTasks;
+            document.getElementById('missing-tasks').textContent = missingTasks;
+        }
+
+        document.getElementById('add-task-button').addEventListener('click', () => {
+            const taskName = document.getElementById('new-task-name').value;
+            const taskTeam = document.getElementById('new-task-team').value;
+            const taskDueDate = document.getElementById('new-task-due-date').value;
+
+            if (taskName && taskTeam && taskDueDate) {
+                const newTask = {
+                    name: taskName,
+                    team: taskTeam,
+                    dueDate: taskDueDate,
+                    dateAssigned: currentDate.toISOString().split('T')[0],
+                    isDone: false
+                };
+                tasks.push(newTask);
+                renderTasks();
+                document.getElementById('new-task-name').value = '';
+                document.getElementById('new-task-team').value = '';
+                document.getElementById('new-task-due-date').value = '';
+            } else {
+                alert('Please fill in all fields with valid data.');
+            }
+        });
+
+        renderTasks();
+    </script>
+</body>
+
+</html>

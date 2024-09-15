@@ -2,14 +2,14 @@ body {
   font-family:'Times New Roman', Times, serif;
   margin: 0;
   padding: 0;
-  background-color: #1D2D44;
+  background-color: black;
   /* background-image: url("../pictures/dark blue.jpg");
   background-size: cover; */
 
 }
 
 .logo{
-  background-color: #1D2D44;
+  background-color: black;
   box-shadow: none;
   /* width:230px; */
   padding: 0;
@@ -25,7 +25,7 @@ body {
 }
 
 header {
-  background-color: #343a40;
+  background-color: black;
   color: #fff;
   padding: 20px;
   text-align: center;
@@ -45,8 +45,8 @@ div {
   text-align: center;
   margin-bottom: 30px;
   width: 500px;
-  margin-left: 350px;
-  background-color: #F0EBD8;
+  margin-left: 400px;
+  background-color: white;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
